@@ -1,7 +1,19 @@
 const express = require('express')
+const morgan = require('morgan')
 
 const app = express()
+
 app.use(express.json())
+
+app.use(morgan((tokens, request, response) => {
+    return [
+        tokens.method(request, response),
+        tokens.url(request, response),
+        tokens.status(request, response),
+        tokens['response-time'](request, response), 'ms',
+        tokens.method(request, response) === "POST" ? JSON.stringify(request.body) : ""
+    ].join(' ')
+}))
 
 let persons = [
     {
@@ -64,7 +76,7 @@ app.post('/api/persons', (request, response) => {
         ||
         body.name.length === 0
     ) {
-        response.status(400).end()
+        response.status(400).json({error: 'Bad request'})
         return
     }
 
