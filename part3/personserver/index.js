@@ -104,7 +104,6 @@ app.delete('/api/persons/:id', (request, response) => {
 
     if (match) {
         persons = persons.filter(person => person.id !== id)
-
         response.status(204).end()
     }
     else {
