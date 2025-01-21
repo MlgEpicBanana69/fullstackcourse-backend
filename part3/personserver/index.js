@@ -8,8 +8,8 @@ const Person = require('./models/person')
 
 const app = express()
 app.use(express.static('dist'))
-app.use(cors())
 app.use(express.json())
+app.use(cors())
 
 app.use(morgan((tokens, request, response) => {
     return [
@@ -38,17 +38,14 @@ app.get('/api/persons', (request, response) => {
     })
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
     const id = request.params.id
 
     Person.findById(id)
         .then(person => {
             person ? response.json(person) : response.status(404).end()
         })
-        .catch(error => {
-            console.log("Error in get by id :>>", error);
-            response.status(400).end()
-        })
+        .catch(error => {next(error)})
 })
 
 app.post('/api/persons', (request, response) => {
@@ -97,6 +94,26 @@ app.delete('/api/persons/:id', (request, response) => {
         response.status(404).end()
     }
 })
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+      return response.status(400).send({ error: 'malformatted id' })
+    }
+
+    next(error)
+  }
+
+  // this has to be the last loaded middleware, also all the routes should be registered before this!
+  app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {

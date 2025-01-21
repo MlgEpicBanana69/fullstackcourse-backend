@@ -1,1 +1,9 @@
 get http://localhost:3001/api/notes
+###
+PUT http://localhost:3001/api/notes/678fde9d066638914efcad02 HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "678fde9d066638914efcad02",
+    "important": true
+}
