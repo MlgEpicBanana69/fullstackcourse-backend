@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 
 const Person = require('./models/person')
+const { MongoCryptCreateEncryptedCollectionError } = require('mongodb')
 
 const app = express()
 app.use(express.static('dist'))
@@ -48,38 +49,18 @@ app.get('/api/persons/:id', (request, response, next) => {
         .catch(error => {next(error)})
 })
 
-app.post('/api/persons', (request, response) => {
-    const phoneNumberRe = /([0-9]){3}-([0-9]){7}/
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
-
-    /* Legacy code
-    if (
-        body.name == null || body.number == null
-        ||
-        phoneNumberRe.exec(body.number) == null
-        ||
-        body.name.length === 0
-    ) {
-        response.status(400).json({error: 'Bad request'})
-        return
-    }
-    */
 
     const newPerson = Person({
         "name": body.name,
         "number": body.number,
     })
 
-    /* Legacy code
-    if (persons.find(person => person.name === newPerson.name)) {
-        response.status(409).json({error: 'name must be unique'})
-        return
-    }
-    */
-
     newPerson.save().then(result => {
         response.json(result)
     })
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
@@ -100,7 +81,7 @@ app.put('/api/persons/:id', (request, response, next) => {
         number: body.number
     }
 
-    Person.findByIdAndUpdate(id, person, { new: true, runValidators: true })
+    Person.findByIdAndUpdate(id, person, { new: true, runValidators: true, context: 'query' })
         .then(result => {
             response.json(result)
         })
@@ -117,11 +98,11 @@ app.use(unknownEndpoint)
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
 
-    if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
-    }
-    else if (error.name === 'ValidationError') {
-        return response.status(400).send({ error: "Request does not adhere to required parameters' validations"})
+    switch (error.name) {
+        case 'CastError':
+            return response.status(400).send({ name: error.name, message: 'malformatted id' })
+        case 'ValidationError':
+            return response.status(400).send({ name: error.name, message: error.message})
     }
 
     next(error)

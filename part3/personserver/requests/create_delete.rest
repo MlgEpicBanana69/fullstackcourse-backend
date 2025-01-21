@@ -27,6 +27,6 @@ PUT http://localhost:3001/api/persons/6790004d5ac8aa52e4349e1a HTTP/1.1
 content-Type: application/json
 
 {
-    "name": "gay",
-    "number": "112-41asda"
+    "name": "ga",
+    "number": "112-1111111"
 }
