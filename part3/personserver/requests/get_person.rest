@@ -2,10 +2,13 @@
 GET http://localhost:3001/api/persons/
 ###
 // Should fetch by ID
-GET http://localhost:3001/api/persons/678f6cbc06594121becc57cb
+GET http://localhost:3001/api/persons/678ffe41c994847b18ddba1c
 ###
 // Expected to fail (404)
 GET http://localhost:3001/api/persons/778f6cbc06594121becc57cb
 ###
 // Malformed request (400)
 GET http://localhost:3001/api/persons/-1
+###
+// info
+GET http://localhost:3001/info
