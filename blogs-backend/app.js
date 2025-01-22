@@ -1,6 +1,6 @@
 // utility
 const config = require('./utils/config')
-const logger = require('./utils/loggers')
+const logger = require('./utils/logger')
 
 // dependencies
 const express = require('express')
@@ -34,7 +34,7 @@ app.use(express.json())
 app.use(middlewear.requestLogger)
 
 // use routers
-app.use('api/blogs', blogsRouter)
+app.use('/api/blogs', blogsRouter)
 
 // handlers
 app.use(middlewear.unknownEndpoint)

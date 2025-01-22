@@ -1,0 +1,14 @@
+GET http://localhost:3003/api/blogs/
+###
+// Succesful post
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "gaming",
+  "author": "gamer",
+  "url": "https://www.games.com/gaming",
+  "likes": "69"
+}
+###
+GET http://localhost:3003/api/blogs/679121cd0e3e4bb05dce0649
