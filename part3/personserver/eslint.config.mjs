@@ -1,6 +1,6 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import js from "@eslint/js"
+import globals from 'globals'
+//import pluginJs from '@eslint/js'
+import js from '@eslint/js'
 import stylisticJs from '@stylistic/eslint-plugin-js'
 
 
@@ -9,14 +9,17 @@ import stylisticJs from '@stylistic/eslint-plugin-js'
 export default [
   js.configs.recommended,
   {
-    files: ["**/*.js"],
+    files: ['**/*.js'],
     languageOptions: {
-      sourceType: "commonjs",
+      sourceType: 'commonjs',
       globals: {
         ...globals.node,
       },
-      ecmaVersion: "latest",
+      ecmaVersion: 'latest',
     },
+  },
+  {
+    ignores: ['dist/**'],
   },
   {
     // ...
@@ -27,6 +30,12 @@ export default [
       '@stylistic/js/indent': [
         'error',
         2
+      ],
+      'object-curly-spacing': [
+        'error', 'always'
+      ],
+      'arrow-spacing': [
+        'error', { 'before': true, 'after': true },
       ],
       '@stylistic/js/linebreak-style': [
         'error',
@@ -40,6 +49,8 @@ export default [
         'error',
         'never'
       ],
+      'eqeqeq': 'error',
+      'no-console': 'off',
     },
   },
 ]
