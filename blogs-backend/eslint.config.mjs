@@ -52,6 +52,7 @@ export default [
       'eqeqeq': 'error',
       'no-console': 'off',
       'no-trailing-spaces': 'error',
+      'no-unused-vars': 'warn'
     },
   },
 ]
