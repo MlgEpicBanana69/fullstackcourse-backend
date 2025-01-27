@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 // application
 const app = express()
 const cors = require('cors')
+require('express-async-errors')
 
 // routers
 const notesRouter = require('./controllers/notes')
