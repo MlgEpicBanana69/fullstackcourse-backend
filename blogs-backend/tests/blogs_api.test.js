@@ -90,6 +90,38 @@ test('created blog with no likes has default of 0 likes', async () => {
   assert(blogsAtEnd.some(blog => blog.title === '600pp easy tutorial for beginners' && blog.likes === 0))
 })
 
+test('delete post by id', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
+  assert(!blogsAtEnd.some(blog => blog.title === blogToDelete.title))
+})
+
+test('can update post by id', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = { id: blogsAtStart[0].id, likes: blogsAtStart[0].likes+1 }
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(blogToUpdate)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  assert(blogsAtEnd.some(blog =>
+    blog.title === blogsAtStart[0].title
+    &&
+    blog.likes === blogsAtStart[0].likes + 1
+  ))
+})
+
 beforeEach(async () => {
   await Blog.deleteMany({})
 
