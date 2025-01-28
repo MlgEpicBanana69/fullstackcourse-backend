@@ -9,8 +9,9 @@ const mongoose = require('mongoose')
 // application
 const app = express()
 const cors = require('cors')
+require('express-async-errors')
 
-// routes
+// routers
 const blogsRouter = require('./controllers/blogs')
 
 // middlewear
