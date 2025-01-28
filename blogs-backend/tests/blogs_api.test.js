@@ -53,6 +53,23 @@ test('can create valid blog', async () => {
   assert(blogsAtEnd.some(blog => blog.title === 'How to make a good toast'))
 })
 
+test.only('blog without title cannot be create', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogWithNoTitle = {
+    author: 'epic gamer',
+    url: 'https://epicgaming.com',
+    likes: 5
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(blogWithNoTitle)
+    .expect(400)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
+})
+
 test('created blog with no likes has default of 0 likes', async () => {
   const blogsAtStart = await helper.blogsInDb()
 
