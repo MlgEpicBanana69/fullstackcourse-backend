@@ -53,7 +53,7 @@ test('can create valid blog', async () => {
   assert(blogsAtEnd.some(blog => blog.title === 'How to make a good toast'))
 })
 
-test.only('blog without title cannot be create', async () => {
+test('blog without title cannot be create', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogWithNoTitle = {
     author: 'epic gamer',
