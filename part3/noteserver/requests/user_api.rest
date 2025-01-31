@@ -8,3 +8,14 @@ Content-Type: application/json
     "name": "Mualani",
     "password": "sharky"
 }
+###
+POST http://localhost:3001/api/notes HTTP/1.1
+content-type: application/json
+
+{
+    "content": "billy",
+    "important": true,
+    "user": "679d2a9612a603dfa470511e"
+}
+###
+GET http://localhost:3001/api/notes
