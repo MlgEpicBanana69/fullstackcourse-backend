@@ -1,8 +1,0 @@
-POST http://localhost:3001/api/notes HTTP/1.1
-content-type: application/json
-
-{
-    "content": "silly",
-    "important": true,
-    "user": "679d3bcaa7a8ef267f09bd4f"
-}
