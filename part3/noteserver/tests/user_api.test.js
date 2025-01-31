@@ -23,7 +23,7 @@ describe('when there are multiple users', () => {
     await Promise.all([user1, user2].map(user => user.save()))
   })
 
-  test.only('server correctly responds all users', async () => {
+  test('server correctly responds all users', async () => {
     const usersInDb = await helper.usersInDb()
 
     const response = await api
