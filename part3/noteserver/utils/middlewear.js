@@ -20,6 +20,8 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({ error: 'malformatted id' })
   case 'ValidationError':
     return response.status(400).send({ error: error.message })
+  case 'JsonWebTokenError':
+    return response.status(401).json({ error: 'token invalid' })
   case 'MongoServerError':
     if (error.message.includes('E11000 duplicate key error')) {
       return response.status(400).json({ error: 'expected `username` to be unique' })
