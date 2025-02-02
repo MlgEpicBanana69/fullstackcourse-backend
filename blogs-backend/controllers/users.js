@@ -15,7 +15,7 @@ usersRouter.post('/', async (request, response) => {
   // password requirement validation
   const passwordValidator = password ? password.length >= 3 : false
   if (!passwordValidator) {
-    response.status(400).json({ error: 'Password does not meet the requirements (length<3)' })
+    response.status(400).json({ error: 'User validation failed: password' })
     return
   }
 
