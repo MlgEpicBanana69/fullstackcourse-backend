@@ -13,7 +13,8 @@ require('express-async-errors')
 
 // routers
 const notesRouter = require('./controllers/notes')
-const usersRouter  = require('./controllers/users')
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 
 // middlewear
 const middleware = require('./utils/middlewear')
@@ -39,6 +40,7 @@ app.use(middleware.requestLogger)
 // use routers
 app.use('/api/notes', notesRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 
 // handlers
 app.use(middleware.unknownEndpoint)
