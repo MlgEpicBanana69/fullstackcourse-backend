@@ -5,23 +5,20 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    minLength: 3,
   },
   name: String,
-  passwordHash: String,
-  notes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Note'
-    }
-  ],
+  passwordHash: {
+    type: String,
+    required: true
+  },
 })
 
 userSchema.set('toJSON', {
-  tranform: (document, returnedObject) => {
+  transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
-    // Password hash should not be revealed
     delete returnedObject.passwordHash
   }
 })

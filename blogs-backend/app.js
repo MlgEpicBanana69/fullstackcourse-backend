@@ -13,6 +13,7 @@ require('express-async-errors')
 
 // routers
 const blogsRouter = require('./controllers/blogs')
+const usersRouter  = require('./controllers/users')
 
 // middlewear
 const middlewear = require('./utils/middlewear')
@@ -36,6 +37,7 @@ app.use(middlewear.requestLogger)
 
 // use routers
 app.use('/api/blogs', blogsRouter)
+app.use('/api/users', usersRouter)
 
 // handlers
 app.use(middlewear.unknownEndpoint)
