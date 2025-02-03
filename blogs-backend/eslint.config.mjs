@@ -19,7 +19,12 @@ export default [
     },
   },
   {
-    ignores: ['dist/**'],
+    ignores: [
+      'dist/**',
+      '**/*.mongodb.js',
+      // Required for disabling lints inside unsaved playgrounds, I have no clue why it works
+      'test.js'
+    ],
   },
   {
     // ...
